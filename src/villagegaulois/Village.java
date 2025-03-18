@@ -17,6 +17,13 @@ public class Village {
         marche = new Marche(nbEtals);
     }
     
+    public class VillageSansChefException extends Exception {
+        public VillageSansChefException(String message) {
+            super(message);
+        }
+    }
+
+    
     public String installerVendeur(Gaulois vendeur, String produit, int nbProduit) {
         System.out.println(vendeur.getNom() + " cherche un endroit pour vendre " + nbProduit + " " + produit + ".");
         int etalLibre = marche.trouverEtalLibre();
@@ -173,7 +180,11 @@ public class Village {
         return null;
     }
 
-    public String afficherVillageois() {
+    public String afficherVillageois() throws VillageSansChefException {
+        if (chef == null) {
+            throw new VillageSansChefException("Le village ne peut pas exister sans un chef !");
+        }
+
         StringBuilder chaine = new StringBuilder();
         if (nbVillageois < 1) {
             chaine.append("Il n'y a encore aucun habitant au village du chef " + chef.getNom() + ".\n");
@@ -185,4 +196,5 @@ public class Village {
         }
         return chaine.toString();
     }
+
 } 

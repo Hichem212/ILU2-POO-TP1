@@ -26,6 +26,9 @@ public class Etal {
 	}
 
 	public String libererEtal() {
+		if (!isEtalOccupe()) {
+	        throw new IllegalStateException("Impossible de libérer un étal qui n'a jamais été occupé !");
+	    }
 		etalOccupe = false;
 		StringBuilder chaine = new StringBuilder(
 				"Le vendeur " + vendeur.getNom() + " quitte son étal, ");
@@ -48,6 +51,15 @@ public class Etal {
 	}
 
 	public String acheterProduit(int quantiteAcheter, Gaulois acheteur) {
+		if (acheteur == null) {
+	        throw new NullPointerException("L'acheteur ne peut pas être null !");
+	    }
+	    if (quantite < 1) {
+	        throw new IllegalArgumentException("La quantité doit être positive et supérieure à 0 !");
+	    }
+	    if (!isEtalOccupe()) {
+	        throw new IllegalStateException("Impossible d'acheter à un étal vide !");
+	    }
 		if (etalOccupe) {
 			StringBuilder chaine = new StringBuilder();
 			chaine.append(acheteur.getNom() + " veut acheter " + quantiteAcheter
